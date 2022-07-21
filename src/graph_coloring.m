@@ -79,7 +79,8 @@ function graph_coloring(file_name)
             same_energy_count = 0;
             last_total_energy = total_energy;
         end 
-    end  
+    end
+    ising_configuration_2D(spin);
     graph_coloring_final_graph(spin, data, color);
 end
 function graph_coloring_final_graph(spin, data, color)

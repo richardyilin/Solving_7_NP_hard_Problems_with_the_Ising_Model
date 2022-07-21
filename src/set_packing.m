@@ -90,7 +90,8 @@ function set_packing(file_name)
             same_energy_count = 0;
             last_total_energy = total_energy;
         end  
-    end 
+    end
+    ising_configuration_1D(spin);
     set_packing_final_graph(intersection,size,spin)
 end
 function set_packing_final_graph(intersection,size,spin)

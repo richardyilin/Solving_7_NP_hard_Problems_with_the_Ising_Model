@@ -83,7 +83,8 @@ function asymetric_traveling_salesman(file_name)
             last_total_energy = total_energy;
         end  
     end  
-    asymetric_traveling_salesman_second_graph(spin);
+    %asymetric_traveling_salesman_second_graph(spin);
+    ising_configuration_2D(spin);
     hamiltonian_cycle_asymetric_traveling_salesman_graph(spin);
 end
 
@@ -141,24 +142,4 @@ function third_difference = asymetric_traveling_salesman_calculate_third_differe
             end   
         end
     end
-end
-
-function asymetric_traveling_salesman_second_graph(spin)
-    spin_size = size(spin,1);
-    a = 1 : spin_size;
-    [x,y] = meshgrid(a,a);
-    f = figure;
-    for i = 1 : spin_size
-        for j = 1 : spin_size
-            if spin(i,j) == 1
-                p1 = plot(x(i,j),y(i,j),'ro'); % 1 is red
-            else
-                p2 = plot(x(i,j),y(i,j),'bo'); % 1 is blue
-            end
-            hold on;
-        end
-    end
-    axis 'equal';
-    title('Ising Spins');
-    legend([p1,p2],{'1','-1'},'Location','northeastoutside');
 end

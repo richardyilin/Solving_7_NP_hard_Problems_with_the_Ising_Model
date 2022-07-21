@@ -77,6 +77,7 @@ function vertex_cover(file_name)
             last_total_energy = total_energy;
         end  
     end
+    ising_configuration_1D(spin);
     vertex_cover_final_graph(data,size,spin)
 end
 function vertex_cover_final_graph(data,size,spin)

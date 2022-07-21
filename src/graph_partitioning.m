@@ -101,6 +101,7 @@ function graph_partitioning(file_name)
             last_second_sum = second_sum;
         end  
     end
+    ising_configuration_1D(spin);
     graph_partitioning_final_graph(data,size,spin);
 end
 function graph_partitioning_final_graph(data,size,spin)

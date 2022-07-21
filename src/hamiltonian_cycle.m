@@ -95,5 +95,6 @@ function hamiltonian_cycle(file_name)
             same_energy_count = 0;
         end        
     end
+    ising_configuration_2D(spin);
     hamiltonian_cycle_asymetric_traveling_salesman_graph(spin);
 end

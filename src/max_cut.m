@@ -70,7 +70,8 @@ function max_cut(file_name)
             same_energy_count = 0;
             last_total_energy = total_energy;
         end 
-    end 
+    end
+    ising_configuration_1D(spin);
     graph_partitioning_max_cut_final_graph(data,size,spin);
 end
 function total_weight = max_cut_weight_sum(data, size)
