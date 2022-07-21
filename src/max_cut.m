@@ -7,9 +7,9 @@ function max_cut(file_name)
     degree = zeros(size,1);
     data = zeros(size);
     for i = 1 : edge
-        start = buffer(3 * i + 1,1);
-        over = buffer(3 * i + 2,1);
-        weight = buffer(3 * i + 3,1);
+        start = buffer(3 * i,1);
+        over = buffer(3 * i + 1,1);
+        weight = buffer(3 * i + 2,1);
         data(start,over) = weight;
         data(over,start) = weight;
         degree(start,1) = degree(start,1) + 1;

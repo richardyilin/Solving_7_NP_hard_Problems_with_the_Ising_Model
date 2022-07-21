@@ -101,7 +101,10 @@ function set_packing_final_graph(intersection,size,spin)
     y = R*sin(alf);
     for i = 1 : size
         if(spin(i,1) == 1) % plot the selected set
-            plot(x(i),y(i),'ro');
+            p1 = plot(x(i),y(i),'ro');
+            hold on;
+        else
+            p2 = plot(x(i),y(i),'bo');
             hold on;
         end
     end
@@ -113,6 +116,7 @@ function set_packing_final_graph(intersection,size,spin)
             end
         end
     end
+    legend([p1,p2],{'selected set','unselected set'},'Location','northeastoutside');
     axis 'equal';
     title('Final Graph');
 end

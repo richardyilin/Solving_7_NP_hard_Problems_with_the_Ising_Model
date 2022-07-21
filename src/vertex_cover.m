@@ -87,10 +87,14 @@ function vertex_cover_final_graph(data,size,spin)
     y = R*sin(alf);
     for i = 1 : size
         if(spin(i,1) == 1)
-            plot(x(i),y(i),'ro');
+            p1 = plot(x(i),y(i),'ro');
+            hold on;
+        else            
+            p2 = plot(x(i),y(i),'bo');
             hold on;
         end
     end
+    %{
     for i = 1 : size
         for j = 1 : (i-1)
             if(data(i,j)~=0)
@@ -99,6 +103,8 @@ function vertex_cover_final_graph(data,size,spin)
             end
         end
     end
+    %}
+    legend([p1,p2],{'colored vertices','uncolored vertices'},'Location','northeastoutside');
     axis 'equal';
     title('Final Graph');
 end
