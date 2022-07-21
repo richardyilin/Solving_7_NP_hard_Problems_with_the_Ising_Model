@@ -1,0 +1,77 @@
+int A;
+    int denominator = 16;
+    if (size > 2 * max_degree)
+    {
+        A = max_degree * 2 / denominator;
+    }
+    else{
+        A = size / denominator;
+    }
+    double init_t, min_t, delta, current_t, beta;
+    int total_edge = 0;
+    int total_energy = 0;
+    int best_total_energy = inf;
+    double error_rate = 0.01;
+    //init_t = 10;
+    int infinite_factor = 100;
+    min_t = (error_rate/(size * (log(size) / log(2)) * 3 / 2));
+    if (A > max_degree)
+    {
+        init_t = A;
+        beta = 1.0 / (A * infinite_factor);
+    }
+    else{
+        init_t = max_degree;
+        beta = 1.0 / (max_degree * infinite_factor);
+    }
+    cout<<"init_t "<<init_t<<" max factor "<<max_degree<<" beta "<<beta<<" mint "<<min_t<<"\n";
+    int same_energy_count = 0;
+    int last_first_sum = 0;
+    int last_second_sum = 0;
+    int break_count = 100;
+    bool *best_spin;
+    best_spin = new bool [size]();
+edge 338
+
+
+
+    int A;
+    int denominator = 16;
+    if (size > 2 * max_degree)
+    {
+        A = max_degree * 2 / denominator;
+    }
+    else{
+        A = size / denominator;
+    }
+    double init_t, min_t, delta, current_t, beta;
+    int total_edge = 0;
+    int total_energy = 0;
+    int best_total_energy = inf;
+    double error_rate = 0.01;
+    //init_t = 10;
+    int infinite_factor = 100;
+    min_t = (error_rate/(size * (log(size) / log(2)) * 3 / 2));
+    if (A > max_degree)
+    {
+        init_t = A / 10;
+        beta = 1.0 / (A * infinite_factor);
+    }
+    else{
+        init_t = max_degree / 10;
+        beta = 1.0 / (max_degree * infinite_factor);
+    }
+    cout<<"init_t "<<init_t<<" max factor "<<max_degree<<" beta "<<beta<<" mint "<<min_t<<"\n";
+    int same_energy_count = 0;
+    int last_first_sum = 0;
+    int last_second_sum = 0;
+    int break_count = 100;
+edge 229
+
+
+
+
+
+
+
+edgeege
