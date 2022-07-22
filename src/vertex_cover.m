@@ -80,8 +80,8 @@ function vertex_cover(file_name)
     ising_configuration_1D(spin);
     vertex_cover_final_graph(data,size,spin)
 end
-function vertex_cover_final_graph(data,size,spin)
-    f = figure;
+function vertex_cover_final_graph(size,spin)
+    f3 = figure;
     R = 1;
     alf=linspace(pi/2,5/2*pi,size+1);
     x = R*cos(alf);
@@ -95,16 +95,6 @@ function vertex_cover_final_graph(data,size,spin)
             hold on;
         end
     end
-    %{
-    for i = 1 : size
-        for j = 1 : (i-1)
-            if(data(i,j)~=0)
-                plot([x(i),x(j)],[y(i),y(j)]);
-                hold on
-            end
-        end
-    end
-    %}
     legend([p1,p2],{'colored vertices','uncolored vertices'},'Location','northeastoutside');
     axis 'equal';
     title('Final Graph');

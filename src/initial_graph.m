@@ -2,7 +2,7 @@ function initial_graph(data)
     spin_size = size(data,1);
     f1 = figure;
     R = 10;
-    alf = linspace(0,2*pi,spin_size+1);
+    alf=linspace(pi/2,5/2*pi,spin_size+1);
     x = R*cos(alf);
     y = R*sin(alf);
     plot(x,y,'ro');

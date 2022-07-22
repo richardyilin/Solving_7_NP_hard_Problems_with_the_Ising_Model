@@ -1,15 +1,15 @@
 function graph_partitioning_max_cut_final_graph(data,size,spin)
-    f2 = figure;
+    f3 = figure;
     R = 1;
     alf=linspace(pi/2,5/2*pi,size+1);
     x = R*cos(alf);
     y = R*sin(alf);
     for i = 1 : size
         if(spin(i,1) == 1)
-            plot(x(i),y(i),'ro');
+            p1 = plot(x(i),y(i),'ro');
             hold on;
         else
-            plot(x(i),y(i),'bd');
+            p2 = plot(x(i),y(i),'bo');
             hold on;
         end
     end
@@ -21,6 +21,7 @@ function graph_partitioning_max_cut_final_graph(data,size,spin)
             end
         end
     end
+    legend([p1,p2],{'set 1','set 2'},'Location','northeastoutside');
     axis 'equal';
     title('Final Graph');
 end

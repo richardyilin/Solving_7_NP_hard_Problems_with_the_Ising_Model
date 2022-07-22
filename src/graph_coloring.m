@@ -4,85 +4,98 @@ function graph_coloring(file_name)
     fclose(fileID);
     size = buffer(1,1);
     edge = buffer(2,1);
-    color = buffer(3,1);
     data = false(size);
     degree = zeros(size,1);
     for i = 1 : edge
-        start = buffer(2*i+2,1);
-        over = buffer(2*i+3,1);
+        start = buffer(2*i+1,1);
+        over = buffer(2*i+2,1);
         data(start,over) = true;
         data(over, start) = true;
         degree(start,1) = degree(start,1) + 1;
         degree(over,1) = degree(over,1) + 1;
     end
     initial_graph(data);
-    max_degree = max(degree);
-    global_minimum = false;
-    last_total_energy = Inf;
-    error_rate = 0.01;
-    infinite_factor = 100;
-    init_t = max_degree;
-    min_t = (error_rate/(size * (log2(size)) * 3 / 2));
-    beta = 1.0 / (max_degree * infinite_factor);
-    same_energy_count = 0;
-    break_count = 100;
-    current_t=init_t;
-    spin = false(size,color);
-    first_sum_v = size; 
-    first_sum_i = zeros(size,1);
-    second_sum = 0;
-    first_sum_i_next = zeros(size,1);
-    total_energy = 0;
-    while(current_t>min_t)       
-            for v = 1 : size
+    left = 1;
+    right = size;
+    ans_color = right;
+    while (left <= right)
+        color = round((left + right)/ 2);
+        max_degree = max(degree);
+        global_minimum = false;
+        last_total_energy = Inf;
+        error_rate = 0.01;
+        infinite_factor = 100;
+        init_t = max_degree;
+        min_t = (error_rate/(size * (log2(size)) * 3 / 2));
+        beta = 1.0 / (max_degree * infinite_factor);
+        same_energy_count = 0;
+        break_count = 100;
+        current_t=init_t;
+        spin = false(size,color);
+        first_sum_v = size; 
+        first_sum_i = zeros(size,1);
+        second_sum = 0;
+        first_sum_i_next = zeros(size,1);
+        total_energy = 0;
+        while(current_t>min_t)       
                 for i = 1 : color
-                    if(spin(v,i))% // 1 to 0
-                        first_sum_i_next(v,1) = first_sum_i(v,1) - 1;
-                        second_difference = calculate_second_difference(spin, data, size, v, i, false) ;  
-                    else % 0 to 1
-                        first_sum_i_next(v,1) = first_sum_i(v,1) + 1;
-                        second_difference = calculate_second_difference(spin, data, size, v, i, true) ;     
-                    end
-                    first_sum_v_next = first_sum_v - mpower((1-first_sum_i(v,1)),2) + mpower((1-first_sum_i_next(v,1)),2);
-                    energy_difference = first_sum_v_next - first_sum_v + second_difference;
-                    if (energy_difference < 0)
-                        spin(v,i) = (~spin(v,i));
-                        first_sum_v = first_sum_v_next; 
-                        first_sum_i(v,1) = first_sum_i_next(v,1);
-                        second_sum = second_sum + second_difference;
-                        total_energy = first_sum_v + second_sum;
-                        if (total_energy == 0)
-                            global_minimum = false;
-                        end              
-                    elseif(~global_minimum) 
-                        prob = exp(-energy_difference/current_t);
-                        if (prob>rand)
+                    for v = 1 : size
+                        if(spin(v,i))% // 1 to 0
+                            first_sum_i_next(v,1) = first_sum_i(v,1) - 1;
+                            second_difference = calculate_second_difference(spin, data, size, v, i, false) ;  
+                        else % 0 to 1
+                            first_sum_i_next(v,1) = first_sum_i(v,1) + 1;
+                            second_difference = calculate_second_difference(spin, data, size, v, i, true) ;     
+                        end
+                        first_sum_v_next = first_sum_v - mpower((1-first_sum_i(v,1)),2) + mpower((1-first_sum_i_next(v,1)),2);
+                        energy_difference = first_sum_v_next - first_sum_v + second_difference;
+                        if (energy_difference < 0)
                             spin(v,i) = (~spin(v,i));
                             first_sum_v = first_sum_v_next; 
                             first_sum_i(v,1) = first_sum_i_next(v,1);
                             second_sum = second_sum + second_difference;
                             total_energy = first_sum_v + second_sum;
-                        end                        
-                    end      
-                end                
-            end        
-        fprintf("first sum  %d second sum %d current t %f total energy %d\n",first_sum_v, second_sum, current_t, total_energy);
-        current_t = current_t / (1 + beta * current_t);
-        if (global_minimum)
-            break;
-        end        
-        if (last_total_energy == total_energy)
-            if (same_energy_count == break_count)
+                            if (total_energy == 0)
+                                global_minimum = true;
+                            end              
+                        elseif(~global_minimum) 
+                            prob = exp(-energy_difference/current_t);
+                            if (prob>rand)
+                                spin(v,i) = (~spin(v,i));
+                                first_sum_v = first_sum_v_next; 
+                                first_sum_i(v,1) = first_sum_i_next(v,1);
+                                second_sum = second_sum + second_difference;
+                                total_energy = first_sum_v + second_sum;
+                            end                        
+                        end      
+                    end                
+                end        
+            fprintf("first sum  %d second sum %d current t %f total energy %d color %d\n",first_sum_v, second_sum, current_t, total_energy, color);
+            current_t = current_t / (1 + beta * current_t);
+            if (global_minimum)
                 break;
-            end            
-            same_energy_count = same_energy_count + 1;
+            end        
+            if (last_total_energy == total_energy)
+                if (same_energy_count == break_count)
+                    break;
+                end            
+                same_energy_count = same_energy_count + 1;
+            else
+                same_energy_count = 0;
+                last_total_energy = total_energy;
+            end 
+        end
+        fprintf("color %d global_minimum %s\n", color, mat2str(global_minimum));
+        if global_minimum
+            ans_color = min([ans_color, color]);
+            right = color - 1;
         else
-            same_energy_count = 0;
-            last_total_energy = total_energy;
-        end 
-    end  
+            left = color + 1;
+        end
+    end
+    fprintf("final color %d\n", ans_color);
     ising_configuration_2D(spin);
-    graph_coloring_final_graph(spin, data, color);
+    graph_coloring_final_graph(spin, data, ans_color);
 end
 function graph_coloring_final_graph(spin, data, color)
     spin_size = size(spin,1);

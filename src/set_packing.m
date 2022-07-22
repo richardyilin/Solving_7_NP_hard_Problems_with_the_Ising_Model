@@ -94,7 +94,7 @@ function set_packing(file_name)
     set_packing_final_graph(intersection,size,spin)
 end
 function set_packing_final_graph(intersection,size,spin)
-    f = figure;
+    f3 = figure;
     R = 1;
     alf=linspace(pi/2,5/2*pi,size+1);
     x = R*cos(alf);

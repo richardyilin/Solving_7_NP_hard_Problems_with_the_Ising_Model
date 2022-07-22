@@ -1,6 +1,6 @@
 function hamiltonian_cycle_asymetric_traveling_salesman_graph(spin)
     spin_size = size(spin,1);
-    f = figure;
+    f3 = figure;
     alf = linspace(pi/2,5/2*pi,spin_size+1);
     R = 1;
     x = R*cos(alf);
