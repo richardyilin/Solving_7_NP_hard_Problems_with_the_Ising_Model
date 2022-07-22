@@ -11,6 +11,7 @@ function graph_coloring(file_name)
         start = buffer(2*i+2,1);
         over = buffer(2*i+3,1);
         data(start,over) = true;
+        data(over, start) = true;
         degree(start,1) = degree(start,1) + 1;
         degree(over,1) = degree(over,1) + 1;
     end
@@ -79,7 +80,7 @@ function graph_coloring(file_name)
             same_energy_count = 0;
             last_total_energy = total_energy;
         end 
-    end
+    end  
     ising_configuration_2D(spin);
     graph_coloring_final_graph(spin, data, color);
 end

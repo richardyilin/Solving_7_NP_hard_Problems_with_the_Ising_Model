@@ -34,7 +34,6 @@ function set_packing(file_name)
     init_t = max_coefficient * max_intersection;
     min_t = (error_rate/(size * log2(size) * 3 / 2));
     beta = 1.0 / (max_coefficient * max_intersection * infinite_factor);
-    %cout<<"init_t "<<init_t<<" max factor "<<(max_coefficient * max_intersection)<<" beta "<<beta<<" mint "<<min_t<<"\n";
     fprintf("init_t %f max factor %d beta %f mint %f",init_t,(max_coefficient * max_intersection),beta,min_t);
     same_energy_count = 0;
     last_total_energy = Inf;
