@@ -7,7 +7,7 @@ function ising_configuration_1D(spin)
         if spin(i, 1) == 1
             p1 = plot(x(1, i), 0, 'ro');
         else
-            p2 = plot(x(1, i), 0, 'bo');
+            p2 = plot(x(1, i), 0, 'co');
             other_value = spin(i, 1);
         hold on
         end

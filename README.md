@@ -31,7 +31,7 @@
  
    ![](./figures/path_blank.PNG)
  
-   3. Enter the input file path. The file path is the relative file path starting from where [src/main.m](./src/main.m) is. For example, your input file path is ``../benchmarks/asymetric_traveling_salesman/ft53.txt`` if your input file is at ``./benchmarks/asymetric_traveling_salesman/ft53.txt`` (The relative file path of this README.md).
+   3. Enter the input file path. The file path is the relative file path starting from where [src/main.m](./src/main.m) is. For example, your input file path is ``../benchmarks/asymmetric_traveling_salesman/ft53.txt`` if your input file is at ``./benchmarks/asymmetric_traveling_salesman/ft53.txt`` (The relative file path of this README.md).
  
    ![](./figures//path_example.PNG)
  
@@ -75,7 +75,7 @@ Output the spin state s as the solution
 ### Asymmetric Traveling Salesman Problem
  
 #### Problem Statement
-   Given a directed graph *G = (V, E)*, where each edge *uv* in the graph has a weight *W<sub>uv</sub>* associated with it, what is the route with the least sum of the weights that visits each city exactly once and returns to the origin city (i.e. a Hamiltonian cycle)?
+   Given a directed graph *G = (V, E)*, where the each vertex *v* denotes a city each edge *uv* in the graph denotes a path connecting cities and has a weight *W<sub>uv</sub>* associated with it, what is the route with the least sum of the weights that visits each city exactly once and returns to the origin city (i.e. a Hamiltonian cycle)?
  
 #### Ising Formulation
    Suppose that the number of node is *n*, and the binary variable *s<sub>u, j</sub> = 1* if vertex u is the j<sup>th</sup> node in the route. The Ising formulation is
@@ -87,20 +87,24 @@ Output the spin state s as the solution
  
 ##### Input Graph
  
-   ![](./figures/asymetric_traveling_salesman_input_graph.PNG)
+   ![](./figures/asymmetric_traveling_salesman_input_graph.PNG)
  
 ##### The configuration of the Ising spins of the output
  
-   ![](./figures/asymetric_traveling_salesman_ising_spins.PNG)
+   ![](./figures/asymmetric_traveling_salesman_ising_spins.PNG)
  
 ##### The final graph
+   The edges on the final graph are the selected path in the route.
  
-   ![](./figures/asymetric_traveling_salesman_final_graph.PNG)
+   ![](./figures/asymmetric_traveling_salesman_final_graph.PNG)
  
 ### Graph Coloring Problem
  
 #### Problem Statement
-   The graph coloring problem can be a decision problem or optimization problem. The decision problem asks: Given a graph *G = (V, E)* and *n* color, is there a way to color the vertices of a graph such that no two adjacent vertices are of the same color? The optimization problem is to obtain the smallest valid *n*. While the Ising formulation is for the decision problem, the final output of this program solves the optimization problem. To elaborate, the we use the binary search to find the smallest *n*. We first initialize the lower bound of *n* as 1, and the upper bound of *n* as the number of the vertices |*V*|, and the answer of the problem *ans* as the upper bound. The input of the Ising Model is the mean *m* of the lowerbound and the upper bound. The Ising Model will tell us if it finds the valid coloring. If it does, the upper bound for the next iteration is *m-1*, and we update *ans* to be *m*. Otherwise, the lower bound for the next iteration is *m+1*. We iterate the process until the lower bound is greater than the upper bound. Finally, *ans* is the smallest number of the color for this graph *G*. With binary search, the the time complexity of the optimization problem is only *O(log|V|)* times more than the decision problem.
+   The graph coloring problem can be a decision problem or optimization problem. The decision problem asks: Given a graph *G = (V, E)* and *n* color, is there a way to color the vertices of a graph such that no two adjacent vertices are of the same color? The optimization problem is to obtain the smallest valid *n*. While the Ising formulation is for the decision problem, we solve the optimization problem with the Ising Model. Below are the algorithm.
+ 
+#### Algorithm to solve the
+   We use the binary search to find the smallest *n*. We first initialize the lower bound of *n* as 1, and the upper bound of *n* as the number of the vertices |*V*|, and the answer of the problem *ans* as the upper bound. The input of the Ising Model is the mean *m* of the lowerbound and the upper bound. The Ising Model will tell us if it finds the valid coloring. If it does, the upper bound for the next iteration is *m-1*, and we update *ans* to be *m*. Otherwise, the lower bound for the next iteration is *m+1*. We iterate the process until the lower bound is greater than the upper bound. Finally, *ans* is the smallest number of the color for this graph *G*. With binary search, the the time complexity of the optimization problem is only *O(log|V|)* times more than the decision problem.
  
 #### Ising Formulation
    Suppose that the number of color is *n*, and the binary variable *s<sub>v, i</sub> = 1* if vertex v is color with i<sup>th</sup> color. The Ising formulation is
@@ -119,6 +123,7 @@ Output the spin state s as the solution
    ![](./figures/graph_coloring_ising_spins.PNG)
  
 ##### The final graph
+   The graph shows the colors of the vertices.
  
    ![](./figures/graph_coloring_final_graph.PNG)
  
@@ -143,6 +148,7 @@ Output the spin state s as the solution
    ![](./figures/graph_partitioning_ising_spins.PNG)
  
 ##### The final graph
+   The vertices in *S* are in red otherwise in cyan. In addition, the graph shows only the edges connecting the two subsets.
  
    ![](./figures/graph_partitioning_final_graph.PNG)
  
@@ -168,6 +174,7 @@ Output the spin state s as the solution
    ![](./figures/hamiltonian_cycle_ising_spins.PNG)
  
 ##### The final graph
+   The graph shows the Hamiltonian cycle. Only the edges in the cycle are shown.
  
    ![](./figures/hamiltonian_cycle_final_graph.PNG)
  
@@ -193,6 +200,7 @@ Output the spin state s as the solution
    ![](./figures/max_cut_ising_spins.PNG)
  
 ##### The final graph
+   The vertices is *S* are in red otherwise in cyan. The edges on the graph are the selected cuts.
  
    ![](./figures/max_cut_final_graph.PNG)
  
@@ -218,6 +226,7 @@ Output the spin state s as the solution
    ![](./figures/set_packing_ising_spins.PNG)
  
 ##### The final graph
+   The vertices on the graph denote the sets. The sets in *C* are in red, otherwise in cyan.
  
    ![](./figures/set_packing_final_graph.PNG)
  
@@ -243,6 +252,7 @@ Output the spin state s as the solution
    ![](./figures/vertex_cover_ising_spins.PNG)
  
 ##### The final graph
+   The vertices that are in the subset *S* are in red, otherwise in cyan.
  
    ![](./figures/vertex_cover_final_graph.PNG)
  
@@ -250,8 +260,8 @@ Output the spin state s as the solution
    Calculating *H<sub>new</sub>* takes *O(n)* time for 1D summation or *O(n<sup>2</sup>)* for 2D summation. We can reduce the time complexity from *O(n)* to *O(1)* or from *O(n<sup>2</sup>)* to *O(n)* by calculating $\Delta$*H* (i.e. *H<sub>new</sub>* - *H*) instead. Take the vertex problem for example. Suppose that we are updating *s<sub>i</sub>*. The first term of the Ising formulation is $$A\sum_{uv \in E}(1-s_u)(1-s_v).$$ It takes *O(n<sup>2</sup>)* time to calculate *H<sub>new</sub>* since we need to enumerate two parameters *u* and *v*. However, the difference of the first term is $$\Delta H_1 = A\sum_{ui \in E}(s_u -1).$$ We can see that *i* is fixed in the formula and we only need to enumerate *u* from 1 to |*S*|. Similarly, the second term is $$B\sum_{i=1}^{|V|}s_i,$$ while the difference of the second term is $$\Delta H_2 = 1 - 2s_i$$ (*s<sub>i</sub>* is either 1 or 0). Therefore, we only need *O(1)* to derive the difference in the second term. Finally, we can obtain *H<sub>new</sub>* by $$H_{new} = H + \Delta H.$$
  
 ## Benchmarks
-   The benchmarks are from well-recognized libraries for the seven problem. The reference link is shown below.
-   1. [Asymetric Traveling Salesman Problem](http://comopt.ifi.uni-heidelberg.de/software/)
+   The benchmarks are from well-recognized libraries for the seven problems. The reference link is shown below.
+   1. [Asymmetric Traveling Salesman Problem](http://comopt.ifi.uni-heidelberg.de/software/)
    2. [Graph Coloring Problem](https://sites.google.com/site/graphcoloring/vertex-coloring)
    3. [Graph Partitioning](https://chriswalshaw.co.uk/partition/)
    4. [Hamiltonian Cycle Problem](http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/)
@@ -263,5 +273,6 @@ Output the spin state s as the solution
    1. [Ising formulations of many NP problems](https://www.frontiersin.org/articles/10.3389/fphy.2014.00005/full)
    2. [Convergence of an annealing algorithm](https://link.springer.com/article/10.1007/BF01582166)
    3. [STATICA: A 512-Spin 0.25M-Weight Annealing Processor With an All-Spin-Updates-at-Once Architecture for Combinatorial Optimization With Complete Spin-Spin Interactions](https://ieeexplore.ieee.org/abstract/document/9222223?casa_token=Bc_BPq8h8J4AAAAA:y_Dj7q38aXb881nutQzg0IYGWhxQzjYULRQkDFDKEjqB14x3lQgMajCZdVA6cMSe_7XaWd4)
+ 
  
 

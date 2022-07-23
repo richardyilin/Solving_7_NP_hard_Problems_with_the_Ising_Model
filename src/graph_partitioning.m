@@ -2,11 +2,11 @@ function graph_partitioning(file_name)
     fileID = fopen(file_name,'r');
     buffer = fgetl(fileID);
     buffer2 = str2double(split(buffer));
-    size = buffer2(1,1);
+    len = buffer2(1,1);
     edge = buffer2(2,1);
-    data = false(size);
+    data = false(len);
     max_degree = 0;
-    for i = 1 : size
+    for i = 1 : len
         start = i;
         buffer = fgetl(fileID);
         buffer2 = str2double(split(buffer));
@@ -22,14 +22,14 @@ function graph_partitioning(file_name)
     fclose(fileID);
     initial_graph(data);
     denominator = 8;
-    if (size > 2 * max_degree)
+    if (len > 2 * max_degree)
         A = max_degree * 2 / denominator;
     else
-        A = size / denominator;
+        A = len / denominator;
     end
     error_rate = 0.01;
     infinite_factor = 100;
-    min_t = (error_rate/(size * (log2(size)) * 3 / 2));
+    min_t = (error_rate/(len * (log2(len)) * 3 / 2));
     %init_t = max_degree/8;
     %beta = 1.0 / (max_degree * infinite_factor);
     if (A > max_degree)
@@ -42,10 +42,10 @@ function graph_partitioning(file_name)
     same_energy_count = 0;
     break_count = 100;
     current_t=init_t;
-    spin = ones(size,1);
-    lfa = zeros(size);
-    for i = 1 : size
-        for j = 1 : size
+    spin = ones(len,1);
+    lfa = zeros(len);
+    for i = 1 : len
+        for j = 1 : len
             if(data(i,j))
                 lfa(i,1) = lfa(i,1) + 1;
             end
@@ -53,10 +53,10 @@ function graph_partitioning(file_name)
     end   
     last_first_sum = 0;
     last_second_sum = 0;
-    first_sum = size;
+    first_sum = len;
     second_sum = edge;
     while(current_t>min_t)      
-        for v = 1 : size
+        for v = 1 : len
             if (spin(v,1) == 1) % 1 to -1
                 first_sum_next = first_sum - 2;
                 second_difference = -2 * lfa(v,1);
@@ -67,7 +67,7 @@ function graph_partitioning(file_name)
             energy_difference = A * (mpower(first_sum_next, 2) - mpower(first_sum, 2)) - second_difference; % maximize second term
             if (energy_difference < 0)
                 spin(v,1) = (-spin(v,1));
-                for i = 1 : size
+                for i = 1 : len
                     if (data(v,i))
                         lfa(i,1) = lfa(i,1) + 2 * spin(v,1);
                     end
@@ -78,7 +78,7 @@ function graph_partitioning(file_name)
                 prob = exp(-energy_difference/current_t);
                 if (prob>rand)
                     spin(v,1) = (-spin(v,1));
-                    for i = 1 : size
+                    for i = 1 : len
                         if (data(v,i))
                             lfa(i,1) = lfa(i,1) + 2 * spin(v,1);
                         end
@@ -102,5 +102,5 @@ function graph_partitioning(file_name)
         end  
     end
     ising_configuration_1D(spin);
-    graph_partitioning_max_cut_final_graph(data,size,spin);
+    graph_partitioning_max_cut_final_graph(data,spin);
 end

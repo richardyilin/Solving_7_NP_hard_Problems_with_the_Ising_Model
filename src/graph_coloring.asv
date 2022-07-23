@@ -18,7 +18,6 @@ function graph_coloring(file_name)
     left = 1;
     right = len;
     ans_color = right;
-    ans_spin = false(len, len);
     while (left <= right)
         color = round((left + right)/ 2);
         max_degree = max(degree);
@@ -33,6 +32,7 @@ function graph_coloring(file_name)
         break_count = 100;
         current_t=init_t;
         spin = false(len,color);
+        ans_spin = spin(:,:);
         first_sum_v = len; 
         first_sum_i = zeros(len,1);
         second_sum = 0;
@@ -90,13 +90,14 @@ function graph_coloring(file_name)
         if global_minimum
             ans_color = min([ans_color, color]);
             ans_spin = spin(:,:);
+            fprintf('size of ans color %d\n',size)
             right = color - 1;
         else
             left = color + 1;
         end
     end
     fprintf("final color %d\n", ans_color);
-    ising_configuration_2D(ans_spin);
+    ising_configuration_2D(spin);
     graph_coloring_final_graph(ans_spin, data, ans_color);
 end
 function graph_coloring_final_graph(spin, data, color)

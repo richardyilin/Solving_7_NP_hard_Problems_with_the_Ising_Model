@@ -1,4 +1,4 @@
-function hamiltonian_cycle_asymetric_traveling_salesman_graph(spin)
+function hamiltonian_cycle_asymmetric_traveling_salesman_graph(spin)
     spin_size = size(spin,1);
     f3 = figure;
     alf = linspace(pi/2,5/2*pi,spin_size+1);

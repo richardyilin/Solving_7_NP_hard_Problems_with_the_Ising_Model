@@ -3,13 +3,11 @@ close all;
 clear;
 selection = get_selected_problem;
 close all;
-if(selection >= 1 && selection <=7)
-    file_name = get_input_file;
-end
+file_name = get_input_file;
 close all;
 switch selection
     case 1
-        asymetric_traveling_salesman(file_name);
+        asymmetric_traveling_salesman(file_name);
     case 2
         graph_coloring(file_name);
     case 3

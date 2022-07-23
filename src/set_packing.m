@@ -3,15 +3,15 @@ function set_packing(file_name)
     buffer2 = fscanf(fileID,'%d');
     fclose(fileID);
     m = buffer2(1,1);
-    size = buffer2(2,1);
-    coefficient = zeros(size,1);
-    for i = 1 : size
+    len = buffer2(2,1);
+    coefficient = zeros(len,1);
+    for i = 1 : len
         coefficient(i,1) = buffer2(i+2,1);
     end
     max_coefficient = max(abs(coefficient));
-    intersection = zeros(size);
-    buffer = zeros(size,1);
-    count = size + 3;
+    intersection = zeros(len);
+    buffer = zeros(len,1);
+    count = len + 3;
     for i = 1 : m
         num = buffer2(count,1);
         count = count + 1;
@@ -32,7 +32,7 @@ function set_packing(file_name)
     error_rate = 0.01;
     infinite_factor = 100;
     init_t = max_coefficient * max_intersection;
-    min_t = (error_rate/(size * log2(size) * 3 / 2));
+    min_t = (error_rate/(len * log2(len) * 3 / 2));
     beta = 1.0 / (max_coefficient * max_intersection * infinite_factor);
     fprintf("init_t %f max factor %d beta %f mint %f",init_t,(max_coefficient * max_intersection),beta,min_t);
     same_energy_count = 0;
@@ -40,22 +40,22 @@ function set_packing(file_name)
     break_count = 100;
     current_t=init_t;
     A = max_coefficient;
-    spin = false(size,1);
+    spin = false(len,1);
     first_sum = 0; 
     second_sum = 0;
     total_energy = 0;
     while(current_t>min_t)
-        for u = 1 : size
+        for u = 1 : len
             first_difference = 0;
             if(spin(u,1))% // 1 to 0
-                for v = 1 : size
+                for v = 1 : len
                     if (spin(v,1))
                         first_difference = first_difference - intersection(u,v);
                     end                            
                 end  
                 second_difference = coefficient(u,1) ;                                           
             else % 0 to 1
-                for v = 1 : size
+                for v = 1 : len
                     if (spin(v,1))
                         first_difference = first_difference + intersection(u,v);
                     end                            
@@ -91,24 +91,25 @@ function set_packing(file_name)
         end  
     end
     ising_configuration_1D(spin);
-    set_packing_final_graph(intersection,size,spin)
+    set_packing_final_graph(intersection,spin)
 end
-function set_packing_final_graph(intersection,size,spin)
+function set_packing_final_graph(intersection, spin)
+    len = size(spin, 1);
     f3 = figure;
     R = 1;
-    alf=linspace(pi/2,5/2*pi,size+1);
+    alf=linspace(pi/2,5/2*pi,len+1);
     x = R*cos(alf);
     y = R*sin(alf);
-    for i = 1 : size
+    for i = 1 : len
         if(spin(i,1) == 1) % plot the selected set
             p1 = plot(x(i),y(i),'ro');
             hold on;
         else
-            p2 = plot(x(i),y(i),'bo');
+            p2 = plot(x(i),y(i),'co');
             hold on;
         end
     end
-    for i = 1 : size
+    for i = 1 : len
         for j = 1 : (i-1)
             if(intersection(i,j)~=0 && spin(i,1) &&spin(j,1)) % if set i and set j are both selected, and they are not disjoint, the edge between them will be plotted.
                 plot([x(i),x(j)],[y(i),y(j)]);

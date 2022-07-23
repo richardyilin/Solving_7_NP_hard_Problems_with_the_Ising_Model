@@ -2,10 +2,10 @@ function max_cut(file_name)
     fileID = fopen(file_name,'r');
     buffer = fscanf(fileID,'%d');
     fclose(fileID);
-    size = buffer(1,1);
+    len = buffer(1,1);
     edge = buffer(2,1);
-    degree = zeros(size,1);
-    data = zeros(size);
+    degree = zeros(len,1);
+    data = zeros(len);
     for i = 1 : edge
         start = buffer(3 * i,1);
         over = buffer(3 * i + 1,1);
@@ -21,22 +21,22 @@ function max_cut(file_name)
     last_total_energy = 0;
     infinite_factor = 100;
     init_t = max_degree;
-    min_t = (error_rate/(size * (log2(size) / log(2)) * 3 / 2));
+    min_t = (error_rate/(len * (log2(len) / log(2)) * 3 / 2));
     beta = 1.0 / (max_degree * infinite_factor);
     same_energy_count = 0;
     break_count = 100;
     current_t=init_t;
-    spin = ones(size,1);
-    lfa = zeros(size,1);
-    for i = 1 : size
-        for j = 1 : size
+    spin = ones(len,1);
+    lfa = zeros(len,1);
+    for i = 1 : len
+        for j = 1 : len
             lfa(i,1) = lfa(i,1) + data(i,j);
         end        
     end    
-    total_weight = max_cut_weight_sum(data, size);   
+    total_weight = max_cut_weight_sum(data);   
     total_energy = total_weight;
     while(current_t>min_t)
-        for v = 1 : size
+        for v = 1 : len
             if (spin(v,1) == 1) % 1 to -1
                 energy_difference = -2 * lfa(v,1);
             else% // -1 to 1
@@ -44,7 +44,7 @@ function max_cut(file_name)
             end 
             if (energy_difference < 0)
                 spin(v,1) = (-spin(v,1));
-                for i = 1 : size
+                for i = 1 : len
                     lfa(i,1) = lfa(i,1) + 2 * spin(v,1) * data(v,i);
                 end    
                 total_energy = total_energy + energy_difference;
@@ -52,7 +52,7 @@ function max_cut(file_name)
                 prob = exp(-energy_difference/current_t);
                 if (prob>rand)
                     spin(v,1) = (-spin(v,1));
-                    for i = 1 : size
+                    for i = 1 : len
                         lfa(i,1) = lfa(i,1) + 2 * spin(v,1) * data(v,i);
                     end    
                     total_energy = total_energy + energy_difference;
@@ -72,12 +72,13 @@ function max_cut(file_name)
         end 
     end
     ising_configuration_1D(spin);
-    graph_partitioning_max_cut_final_graph(data,size,spin);
+    graph_partitioning_max_cut_final_graph(data, spin);
 end
-function total_weight = max_cut_weight_sum(data, size)
+function total_weight = max_cut_weight_sum(data)
+    len = size(data, 1);
     total_weight = 0;
-    for i = 1 : size
-        for j = 1 : size - 1
+    for i = 1 : len
+        for j = 1 : len - 1
             total_weight = total_weight + data(i,j);
         end        
     end
