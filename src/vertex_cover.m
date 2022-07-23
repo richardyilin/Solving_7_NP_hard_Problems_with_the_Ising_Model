@@ -78,7 +78,7 @@ function vertex_cover(file_name)
         end  
     end
     ising_configuration_1D(spin);
-    vertex_cover_final_graph(data,size,spin)
+    vertex_cover_final_graph(size,spin)
 end
 function vertex_cover_final_graph(size,spin)
     f3 = figure;
@@ -95,7 +95,7 @@ function vertex_cover_final_graph(size,spin)
             hold on;
         end
     end
-    legend([p1,p2],{'colored vertices','uncolored vertices'},'Location','northeastoutside');
+    legend([p1,p2],{'Vertices in S','Vertices not in S'},'Location','northeastoutside');
     axis 'equal';
     title('Final Graph');
 end
