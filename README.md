@@ -38,15 +38,15 @@
    4. The GUI Interface will output the graph of your input file. When the program is done, it will output the graph of the configuration of the Ising spins, and the graph of the final result. This document will show what they look like in each NP-hard problem in the following section.
  
 ## Algorithm for Ising Model
-   We construct the Ising Model to perform the simulated annealing algorithm to solve the NP-hard problems. An Ising Model contains Ising spins s<sub>i</sub> and the Hamiltonian *H* and the temperature *T*. The Hamiltonian is a formulation of Ising spins, depending on what problem we are solving. Our objective is to minimize *H*. The following is the algorithm to reach the ground state of *H*.
+   We construct the Ising Model to perform the simulated annealing algorithm to solve the NP-hard problems. An Ising Model contains Ising spins s<sub>i</sub> and the Hamiltonian *H* and the temperature *T*. The Hamiltonian is a formulation of Ising spins, depending on what problem we are solving. For the optimization problem, the Ising formulation includes term(s) enforcing the constraint(s) of the problem, which is multiplied by a constant *A*. and a term optimizing the objective of the problem, which is multiplied by a constant *B*. We need to ensure that $\frac{A}{B}$ is large enough so that the constraints of the problem are not violated. The objective of the Ising Model is to minimize *H*. The following is the algorithm to reach the ground state of *H*.
    1. We are given the initial *H*, *s*, *T*, and *T<sub>min</sub>*.
-   2. We try to flip a spin and measure the new Hamiltonian.
-   3. We calculate the probability to flip the spin. The probability is $$P=min(1, e^{\frac{\beta (H_{new} - H)}{T}})$$
-   4. We generate a random number *rand* = [0, 1]. If the *P > rand*, We flip the spin and update *H*.
+   2. We try to flip a spin and calculate the difference of the Hamiltonian $\Delta$ H.
+   3. We calculate the probability to flip the spin. The probability is $$P=min(1, e^{\frac{\beta \Delta H)}{T}})$$
+   4. We generate a random number *rand* = [0, 1]. If the *P >= rand*, We flip the spin and update *H*.
    5. We go to step to and repeat the process to try to flip every spin.
    6. After trying on every spin, we lower the temperature *T* with the formula $$T=\frac{T}{1+cT}$$, where *c* is a constant.
    7. We go to the step 2 and repeat the process until *T* < *T<sub>min</sub>*.
-   We can observe that in step 3 and step 6, we need to lower the temperature to reduce the probability to flip an Ising spin so that the configuration of the Ising spins converge eventually.
+   We can observe that in step 3 and step 6, we need to lower the temperature to reduce the probability to flip an Ising spin so that the configuration of the Ising spins converges eventually.
    We use [Metropolis–Hastings algorithm](https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm) to determine if the spin should be flipped.
    We use [Lundy's cooling schedule](https://link.springer.com/article/10.1007/BF01582166) to lower the temperature.
    The pseudocode is shown below.
@@ -57,10 +57,10 @@ T = T_init
 H = H_init
 while T > T_min
    for i = 1 to |S| do
-  	try to flip the ith spin s[i], and H_new is the Hamiltonian of the trial
-  	P = min(1, e ^ (b * (H_new - H) / T)) // Probability to flip s[i]
+  	try to flip the ith spin s[i], and ΔH is the difference of the Hamiltonian of in the trial
+  	P = min(1, e ^ (β * ΔH / T)) // Probability to flip s[i]
   	Generate a random number rand = [0, 1]
-  	if P > rand then
+  	if P >= rand then
      	flip s[i] // flip the ith spin
      	H = H_new
   	end if
@@ -81,7 +81,7 @@ Output the spin state s as the solution
    Suppose that the number of node is *n*, and the binary variable *s<sub>u, j</sub> = 1* if vertex u is the j<sup>th</sup> node in the route. The Ising formulation is
    $$A\sum_{v=1}^n (1-\sum_{j=1}^n s_{v, j})^2 + A\sum_{j=1}^n (1-\sum_{v=1}^n s_{v, j})^2 + A\sum_{uv \notin E} \sum_{j=1}^n s_{u, j}s_{v, j+1} + B\sum_{uv\in E} W_{uv} \sum_{j=1}^n s_{u, j}s_{v, j+1}$$
  
-   The first term is for the constraint that every vertex must appear exactly once in a cycle. The second term constraints that there must be a j<sup>th</sup> node in the cycle for each j. The third term requires that there should be an energy penalty if *s<sub>u, j</sub>1* and *s<sub>v, j+1</sub>* are both 1, and *uv* $\notin$ *E*. Finally, the last term minimizes the sum of the weights of the route.
+   The first term is for the constraint that every vertex must appear exactly once in a cycle. The second term constraints that there must be a j<sup>th</sup> node in the cycle for each j. The third term requires that there should be an energy penalty if *s<sub>u, j</sub>* and *s<sub>v, j+1</sub>* are both 1, and *uv* $\notin$ *E*. Finally, the last term minimizes the sum of the weights of the route.
  
 #### Simulation
  
@@ -103,8 +103,8 @@ Output the spin state s as the solution
 #### Problem Statement
    The graph coloring problem can be a decision problem or optimization problem. The decision problem asks: Given a graph *G = (V, E)* and *n* color, is there a way to color the vertices of a graph such that no two adjacent vertices are of the same color? The optimization problem is to obtain the smallest valid *n*. While the Ising formulation is for the decision problem, we solve the optimization problem with the Ising Model. Below are the algorithm.
  
-#### Algorithm to solve the
-   We use the binary search to find the smallest *n*. We first initialize the lower bound of *n* as 1, and the upper bound of *n* as the number of the vertices |*V*|, and the answer of the problem *ans* as the upper bound. The input of the Ising Model is the mean *m* of the lowerbound and the upper bound. The Ising Model will tell us if it finds the valid coloring. If it does, the upper bound for the next iteration is *m-1*, and we update *ans* to be *m*. Otherwise, the lower bound for the next iteration is *m+1*. We iterate the process until the lower bound is greater than the upper bound. Finally, *ans* is the smallest number of the color for this graph *G*. With binary search, the the time complexity of the optimization problem is only *O(log|V|)* times more than the decision problem.
+#### Algorithm to solve the optimization problem of the graph coloring problem
+   We use the binary search to find the smallest *n*. We first initialize the lower bound of *n* as 1, and the upper bound of *n* as the number of the vertices |*V*|, the result of the number of the colors of the problem *ans_color* as the number of the vertices |*V*|, and the result of the Ising spins *ans_spins* as the initial Ising spin configuration. The input of the Ising Model is the mean *m* of the lowerbound and the upper bound. The Ising Model will tell us if it finds the valid coloring. If it does, the upper bound for the next iteration is *m-1*, and we update *ans_color* to be *m* and *ans_spins* to be the current Ising spin configuration. Otherwise, the lower bound for the next iteration is *m+1*. We iterate the process until the lower bound is greater than the upper bound. Finally, *ans_color* is the smallest number of the color and *ans_spins* is the corresponding Ising spin configuration for this graph *G*. With binary search, the the time complexity of the optimization problem is only *O(log|V|)* times more than the decision problem.
  
 #### Ising Formulation
    Suppose that the number of color is *n*, and the binary variable *s<sub>v, i</sub> = 1* if vertex v is color with i<sup>th</sup> color. The Ising formulation is
@@ -135,7 +135,7 @@ Output the spin state s as the solution
 #### Ising Formulation
    Suppose that the number of the vertices in *G* is *n*, and the binary variable *s<sub>i</sub> = 1* if vertex *i* is placed in set 1 while *s<sub>i</sub> = -1* if vertex *i* is placed in set 2. The Ising formulation is $$A(\sum_{i=1}^n s_i)^2 + B\sum_{uv \in E} \frac{1-s_{u}s_{v}}{2}$$
  
-   The first term enforces the constraint that the difference of the sizes of two subsets should equal N%2. The second term minimizes the edges connecting two subsets.
+   The first term enforces the constraint that the difference of the sizes of two subsets should equal *N%2*. The second term minimizes the edges connecting two subsets.
  
 #### Simulation
  
@@ -159,7 +159,7 @@ Output the spin state s as the solution
  
 #### Ising Formulation
    Suppose that the number of node is *n*, and the binary variable *s<sub>u, j</sub> = 1* if vertex u is the j<sup>th</sup> node in the route. The Ising formulation is
-   $$A\sum_{v=1}^n (1-\sum_{j=1}^n s_{v, j})^2 + A\sum_{j=1}^n (1-\sum_{v=1}^n s_{v, j})^2 + A\sum_{uv \notin E} \sum_{j=1}^n s_{u, j}s_{v, j+1}$$
+   $$\sum_{v=1}^n (1-\sum_{j=1}^n s_{v, j})^2 + \sum_{j=1}^n (1-\sum_{v=1}^n s_{v, j})^2 + \sum_{uv \notin E} \sum_{j=1}^n s_{u, j}s_{v, j+1}$$
  
    The first term is for the constraint that every vertex must appear exactly once in a cycle. The second term constraints that there must be a j<sup>th</sup> node in the cycle for each j. Finally, there should be an energy penalty if *s<sub>u, j</sub>1* and *s<sub>v, j+1</sub>* are both 1, and *uv* $\notin$ *E*.
  
@@ -257,7 +257,7 @@ Output the spin state s as the solution
    ![](./figures/vertex_cover_final_graph.PNG)
  
 ## Optimization of the time complexity
-   Calculating *H<sub>new</sub>* takes *O(n)* time for 1D summation or *O(n<sup>2</sup>)* for 2D summation. We can reduce the time complexity from *O(n)* to *O(1)* or from *O(n<sup>2</sup>)* to *O(n)* by calculating $\Delta$*H* (i.e. *H<sub>new</sub>* - *H*) instead. Take the vertex problem for example. Suppose that we are updating *s<sub>i</sub>*. The first term of the Ising formulation is $$A\sum_{uv \in E}(1-s_u)(1-s_v).$$ It takes *O(n<sup>2</sup>)* time to calculate *H<sub>new</sub>* since we need to enumerate two parameters *u* and *v*. However, the difference of the first term is $$\Delta H_1 = A\sum_{ui \in E}(s_u -1).$$ We can see that *i* is fixed in the formula and we only need to enumerate *u* from 1 to |*S*|. Similarly, the second term is $$B\sum_{i=1}^{|V|}s_i,$$ while the difference of the second term is $$\Delta H_2 = 1 - 2s_i$$ (*s<sub>i</sub>* is either 1 or 0). Therefore, we only need *O(1)* to derive the difference in the second term. Finally, we can obtain *H<sub>new</sub>* by $$H_{new} = H + \Delta H.$$
+   In this project, we reduce the time complexity by calculating the difference of the Hamiltonian $\Delta$*H* instead of the new Hamiltonian *H<sub>new</sub>*. Calculating *H<sub>new</sub>* takes *O(n)* time for 1D summation or *O(n<sup>2</sup>)* for 2D summation. We can reduce the time complexity from *O(n)* to *O(1)* or from *O(n<sup>2</sup>)* to *O(n)* by calculating $\Delta$*H* instead. Take the vertex problem for example. Suppose that we are updating *s<sub>i</sub>*. The first term of the Ising formulation is $$A\sum_{uv \in E}(1-s_u)(1-s_v).$$ It takes *O(n<sup>2</sup>)* time to calculate *H<sub>new</sub>* since we need to enumerate two parameters *u* and *v*. However, the difference of the first term is $$\Delta H_1 = A\sum_{ui \in E}(s_u -1).$$ We can see that *i* is fixed in the formula and we only need to enumerate *u* from 1 to |*S*|. Similarly, the second term is $$B\sum_{i=1}^{|V|}s_i,$$ while the difference of the second term is $$\Delta H_2 = 1 - 2s_i$$ (*s<sub>i</sub>* is either 1 or 0). Therefore, we only need *O(1)* to derive the difference in the second term. Finally, we can obtain *H<sub>new</sub>* by $$H_{new} = H + \Delta H.$$
  
 ## Benchmarks
    The benchmarks are from well-recognized libraries for the seven problems. The reference link is shown below.

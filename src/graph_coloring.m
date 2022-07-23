@@ -89,7 +89,7 @@ function graph_coloring(file_name)
         fprintf("color %d global_minimum %s\n", color, mat2str(global_minimum));
         if global_minimum
             ans_color = min([ans_color, color]);
-            ans_spin = spin(:,:);
+            ans_spin = spin;
             right = color - 1;
         else
             left = color + 1;
