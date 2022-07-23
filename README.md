@@ -263,7 +263,7 @@ Output the spin state s as the solution
    The benchmarks are from well-recognized libraries for the seven problems. The reference link is shown below.
    1. [Asymmetric Traveling Salesman Problem](http://comopt.ifi.uni-heidelberg.de/software/)
    2. [Graph Coloring Problem](https://sites.google.com/site/graphcoloring/vertex-coloring)
-   3. [Graph Partitioning](https://chriswalshaw.co.uk/partition/)
+   3. [Graph Partitioning](https://chriswalshaw.co.uk/partition/) The benchmark is not public so it is not included in the repository.
    4. [Hamiltonian Cycle Problem](http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/)
    5. [Max Cut Problem](https://medium.com/toshiba-sbm/benchmarking-the-max-cut-problem-on-the-simulated-bifurcation-machine-e26e1127c0b0)
    6. [Set Packing  Problem](https://www.emse.fr/~delorme/SetPacking.html)
