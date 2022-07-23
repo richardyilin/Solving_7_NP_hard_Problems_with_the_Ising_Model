@@ -1,6 +1,26 @@
 # Solving_7_NP_hard_Problems_with_the_Ising_Model
+
+## Table of contents
+<!--ts-->
+   * [Overview](#overview)
+   * [Usage](#usage)
+   * [Algorithm for Ising Model](#algorithm-for-ising-model)
+   * [Introduction to the seven NP-hard problems](#introduction-to-the-seven-np-hard-problems)
+     * [Asymmetric Traveling Salesman Problem](#asymmetric-traveling-salesman-problem)
+     * [Graph Coloring Problem](#graph-coloring-problem)
+     * [Graph Partitioning Problem](#graph-partitioning-problem)
+     * [Hamiltonian Cycle Problem](#hamiltonian-cycle-problem)
+     * [Max Cut Problem](#max-cut-problem)
+     * [Set Packing Problem](#set-packing-problem)
+     * [Vertex Cover Problem](#vertex-cover-problem)
+   * [Optimization of the time complexity](#optimization-of-the-time-complexity)
+   * [Benchmarks](#benchmarks)
+   * [References](#references)   
+<!--te-->
+
+
 ## Overview
-   This project solves seven NP-hard Problems with the Ising Model. The seven problems are Asymmetric Traveling Salesman Problem, Graph Coloring, Graph Partitioning Problem, Hamiltonian Cycle Problem, Max Cut Problem, Set Packing Problem, and Vertex Cover Problem.
+   This project solves seven NP-hard Problems with the Ising Model. The seven problems are Asymmetric Traveling Salesman Problem, Graph Coloring Problem, Graph Partitioning Problem, Hamiltonian Cycle Problem, Max Cut Problem, Set Packing Problem, and Vertex Cover Problem.
  
 ## Usage
    1. Please open the file [src/main.m](./src/main.m), click ``Run``. The GUI Interface will be shown as below.
@@ -239,7 +259,7 @@ Output the spin state s as the solution
    6. [Set Packing  Problem](https://www.emse.fr/~delorme/SetPacking.html)
    7. [Vertex Cover  Problem](https://networkrepository.com/bhoslib.php)
  
-##References
+## References
    1. [Ising formulations of many NP problems](https://www.frontiersin.org/articles/10.3389/fphy.2014.00005/full)
    2. [Convergence of an annealing algorithm](https://link.springer.com/article/10.1007/BF01582166)
    3. [STATICA: A 512-Spin 0.25M-Weight Annealing Processor With an All-Spin-Updates-at-Once Architecture for Combinatorial Optimization With Complete Spin-Spin Interactions](https://ieeexplore.ieee.org/abstract/document/9222223?casa_token=Bc_BPq8h8J4AAAAA:y_Dj7q38aXb881nutQzg0IYGWhxQzjYULRQkDFDKEjqB14x3lQgMajCZdVA6cMSe_7XaWd4)
